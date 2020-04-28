@@ -1,0 +1,35 @@
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section {
+    display: block;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+p {
+    padding: 0;
+}
+
+ul{
+	list-style: none;
+	padding: 0;
+}

@@ -1,0 +1,40 @@
+/* line 1, ../sass/_reset.scss */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section {
+  display: block;
+}
+
+/* line 15, ../sass/_reset.scss */
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* line 21, ../sass/_reset.scss */
+button {
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+/* line 28, ../sass/_reset.scss */
+p {
+  padding: 0;
+}
+
+/* line 32, ../sass/_reset.scss */
+ul {
+  list-style: none;
+  padding: 0;
+}
