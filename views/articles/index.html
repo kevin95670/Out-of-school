@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<h2>Articles</h2>
+	<a href="/article/new">Ajouter un article</a>
+	{% for article in articles %}
+		<a href="/article/{{article.id}}">{{article.titre}}</a>
+		<p>{{article.contenu}}</p>
+	{% endfor %}
+
+{% endblock %}
