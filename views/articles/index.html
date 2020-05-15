@@ -6,7 +6,18 @@
 	<a href="/article/new">Ajouter un article</a>
 	{% for article in articles %}
 		<a href="/article/{{article.id}}">{{article.titre}}</a>
-		<p>{{article.contenu}}</p>
+		<div id="article-{{loop.index}}">{{article.contenu}}</div>
 	{% endfor %}
 
+{% endblock %}
+
+{% block javascript %}
+  	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+  	<script>
+  		for (index = 1; index < {{articles.length+1}}; index++ ){
+	  		var articleContent = document.getElementById('article-' + index).textContent;
+	  		document.getElementById('article-' + index).innerHTML =
+	  		marked(articleContent);
+	  	}
+  	</script>
 {% endblock %}

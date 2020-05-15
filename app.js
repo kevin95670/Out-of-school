@@ -33,7 +33,7 @@ app.use('/categorie', require('./routes/categories'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 nunjucks.configure('views', {
-	autoescape: true,
+	autoescape: false,
 	express: app
 });
 

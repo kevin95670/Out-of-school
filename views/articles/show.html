@@ -4,6 +4,7 @@
 	<img src="/uploads/{{article.image}}" alt="{{article.titre}}">
 	<a href="/">Retour à la liste des articles</a>
 	<h2>{{article.titre}}</h2>
+	<div id="content"></div>
 	<a href="/article/delete/{{article._id}}">Supprimer</a>
 	<a href="/article/edit/{{article._id}}">Editer</a>
 	<p>Publié par : {{article.auteur.fullname}}</p>
@@ -11,4 +12,15 @@
 	{% for categorie in article.categories %}
 		<a href="/categorie/{{categorie.nom}}">{{categorie.nom}}</a>
 	{% endfor %}
+
+{% endblock %}
+
+{% block javascript %}
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+  <script>
+  var ok = '{{article.contenu}}';
+  	//var articleContent = document.getElementById('content').textContent;
+    document.getElementById('content').innerHTML =
+  	marked(ok);
+  </script> 
 {% endblock %}

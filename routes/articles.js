@@ -1,4 +1,6 @@
 var router = require('express').Router();
+var showdown  = require('showdown');
+var converter = new showdown.Converter();
 
 var Article = require('./../models/Article');
 var Categorie = require('./../models/Categorie');
@@ -91,7 +93,7 @@ router.post('/:id?', (req,res) => {
 		}
 	}).then(article => {
 		article.titre = req.body.titre;
-		article.contenu = req.body.contenu;
+		article.contenu = converter.makeHtml(req.body.contenu);
 		article.categories = req.body.categories;
 
 		if(req.file){
