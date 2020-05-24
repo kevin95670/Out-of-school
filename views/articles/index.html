@@ -1,10 +1,19 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-	<h2>Articles</h2>
+	{% if session.flash.success %}
+		<div class="alert alert-success" role="alert">
+  			{{session.flash.success[session.flash.success.length-1]}}
+		</div>
+	{% elseif session.flash.error %}
+		<div class="alert alert-error" role="alert">
+  			{{session.flash.error[session.flash.error.length-1]}}
+		</div>
+	{% endif %}
+	<h1>Articles</h1>
 	<a href="/article/new">Ajouter un article</a>
 	{% for article in articles %}
+	<p>Publié par : {{article.auteur.username}}</p>
 		<a href="/article/{{article.id}}">{{article.titre}}</a>
 		<div id="article-{{loop.index}}">{{article.contenu}}</div>
 	{% endfor %}

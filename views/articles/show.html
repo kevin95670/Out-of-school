@@ -3,11 +3,13 @@
 {% block content %}
 	<img src="/uploads/{{article.image}}" alt="{{article.titre}}">
 	<a href="/">Retour à la liste des articles</a>
-	<h2>{{article.titre}}</h2>
+	<h1>{{article.titre}}</h1>
 	<div id="content"></div>
+	{% if article.auteur.username === session.passport.user %}
 	<a href="/article/delete/{{article._id}}">Supprimer</a>
 	<a href="/article/edit/{{article._id}}">Editer</a>
-	<p>Publié par : {{article.auteur.fullname}}</p>
+	{% endif %}
+	<p>Publié par : {{article.auteur.username}}</p>
 	<p>Catégories : </p>
 	{% for categorie in article.categories %}
 		<a href="/categorie/{{categorie.nom}}">{{categorie.nom}}</a>

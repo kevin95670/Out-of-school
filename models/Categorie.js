@@ -2,12 +2,6 @@ var mongoose = require('mongoose');
 
 var categorieSchema = new mongoose.Schema({
 	nom: String,
-	/*articles: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Article'
-		}
-	],*/
 });
 
 categorieSchema.virtual('articles',{

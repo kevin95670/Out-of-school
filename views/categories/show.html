@@ -2,7 +2,7 @@
 
 {% block content %}
 
-	<h2>Articles de la catégorie <span>{{categorie.nom}}</span></h2>
+	<h1>Articles de la catégorie <span>{{categorie.nom}}</span></h1>
 	{% for article in articles %}
 		<a href="/article/{{article._id}}">{{article.titre}}</a>
 		<p>{{article.contenu}}</p>

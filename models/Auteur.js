@@ -1,18 +1,17 @@
 var mongoose = require('mongoose');
+var passportLocalMongoose = require('passport-local-mongoose');
 
 var auteurSchema = new mongoose.Schema({
-	prenom: { type: String, default: "Kevin"},
-	nom: { type: String, default: "Léonard"},
-	articles: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Article'
-		}
-	],
+	username: String,
+    password: String
 });
 
-auteurSchema.virtual('fullname').get(function() {
-	return this.prenom + ' ' + this.nom;
+auteurSchema.plugin(passportLocalMongoose);
+
+auteurSchema.virtual('articles',{
+	ref: 'Article',
+	localField: '_id',
+	foreignField: 'auteur'
 });
 
 var Auteur = mongoose.model('Auteur', auteurSchema);
