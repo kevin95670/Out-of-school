@@ -56,7 +56,9 @@ passport.use(Auteur.createStrategy());
 passport.serializeUser(Auteur.serializeUser());
 passport.deserializeUser(Auteur.deserializeUser());
 
-app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/boostrap', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/css', express.static(__dirname + '/styles/css'));
+app.use('/images', express.static(__dirname + '/images'));
 
 app.use('/', require('./routes/articles'));
 app.use('/user', require('./routes/user'));

@@ -1,7 +1,17 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-	<h1>Enregistrer un article</h1>
+{% if success.length > 0 %}
+	<div class="alert alert-success" role="alert">
+			{{success}}
+	</div>
+{% elseif error.length > 0 %}
+	<div class="alert alert-danger" role="alert">
+			{{error}}
+	</div>
+{% endif %}
+<div class="container">
+	<h1 class="text-center my-4">Enregistrer un article</h1>
 	<form method="post" action="{{endpoint}}" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="titre">Titre</label>
@@ -9,21 +19,21 @@
 		</div>
 		<div class="form-group">
 			<label for="contenu">Contenu</label>
-			<textarea class="form-control" id="contenu" name="contenu">{{article.contenu}}</textarea>
+			<textarea class="form-control" rows="30" cols="30" id="contenu" name="contenu">{{article.contenu}}</textarea>
 		</div>
 		<div class="form-group">
-			<label for="file">Image</label>
-			<input type="file" id="file" name="file">
+			<label for="file" id="label-file">Téléchargez votre Image</label>
+			<input type="file" class="form-control-file" id="file" name="file">
 		</div>
 		<div class="form-group">
 			{% for categorie in categories %}
-				<label>
-					<input type="checkbox" name="categories[]" value="{{categorie._id}}" {% if article.categories.indexOf(categorie._id) != -1 %}checked {% endif %}>
-					{{categorie.nom}}
-				</label>
+				<span class="custom-control custom-checkbox">
+					<input class="custom-control-input" type="checkbox" id="{{categorie._id}}" name="categories[]" value="{{categorie._id}}" {% if article.categories.indexOf(categorie._id) != -1 %}checked {% endif %}>
+					<label class="custom-control-label" for="{{categorie._id}}">{{categorie.nom}}</label>
+				</span>
 			{% endfor %}
 		</div>
 		<input type="submit" class="btn btn-primary" value="Enregistrer">
 	</form>
-
+</div>
 {% endblock %}

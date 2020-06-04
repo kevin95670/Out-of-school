@@ -1,12 +1,36 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
-	<h1>Articles de la catégorie <span>{{categorie.nom}}</span></h1>
-	{% for article in articles %}
-		<a href="/article/{{article._id}}">{{article.titre}}</a>
-		<p>{{article.contenu}}</p>
-	{% endfor %}
+{% if success.length > 0 %}
+	<div class="alert alert-success" role="alert">
+			{{success}}
+	</div>
+{% elseif error.length > 0 %}
+	<div class="alert alert-danger" role="alert">
+			{{error}}
+	</div>
+{% endif %}
+	<div class="container">
+		<h1 class="text-center my-4">Articles de la catégorie <span>{{categorie.nom}}</span></h1>
+		{% if articles.length === 0 %}
+			<p class="alert alert-info">Aucun article pour cette catégorie</p>
+		{% endif %}
+		{% for article in articles %}
+			<article class="row border my-3 d-flex {% if loop.index % 2 == 0 %}flex-row-reverse{% else %} flex-row {% endif %}">
+				{% if article.image %}
+				<div class="img-article col-md-4 px-0">
+					<img class="img-fluid" src="/uploads/{{article.image}}" alt="{{article.titre}}">
+				</div>
+				{% endif %}
+				<div class="body-article px-3 pt-2 col-md-8">
+					<h2 class="text-primary text-center mb-3 text-center"><a href="/article/{{article.id}}">{{article.titre}}</a></h2>
+					<div id="article-{{loop.index}}">{{article.contenu | replace("script", " ") | truncate(320, false)}}
+					</div>
+					<a class="see-more btn btn-primary d-block mx-auto" href="/article/{{article.id}}">Voir l'article</a>
+				</div>
+			</article>
+		{% endfor %}
+	</div>
 
 
 {% endblock %}

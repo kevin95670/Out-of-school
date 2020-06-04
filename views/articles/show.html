@@ -1,28 +1,45 @@
 {% extends "layout.html" %}
 
 {% block content %}
-	<img src="/uploads/{{article.image}}" alt="{{article.titre}}">
-	<a href="/">Retour à la liste des articles</a>
-	<h1>{{article.titre}}</h1>
-	<div id="content"></div>
-	{% if article.auteur.username === session.passport.user %}
-	<a href="/article/delete/{{article._id}}">Supprimer</a>
-	<a href="/article/edit/{{article._id}}">Editer</a>
+{% if success.length > 0 %}
+	<div class="alert alert-success" role="alert">
+			{{success}}
+	</div>
+{% elseif error.length > 0 %}
+	<div class="alert alert-danger" role="alert">
+			{{error}}
+	</div>
+{% endif %}
+<div class="container mb-4" id="article">
+	{% if article.image !== null %}
+		<img class="img-fluid d-block mx-auto banner" src="/uploads/{{article.image}}" alt="{{article.titre}}">
 	{% endif %}
-	<p>Publié par : {{article.auteur.username}}</p>
-	<p>Catégories : </p>
-	{% for categorie in article.categories %}
-		<a href="/categorie/{{categorie.nom}}">{{categorie.nom}}</a>
-	{% endfor %}
+	<h1 class="text-center my-4">{{article.titre}}</h1>
+	<div class="mb-4">{{article.contenu | replace("script", " ")}}</div>
+	<p class="font-italic my-3">Publié par : {{article.auteur.username}}</p>
+	<div class="categories d-flex my-4">
+		{% for categorie in article.categories %}
+			<a class="mr-3" href="/categorie/{{categorie.nom}}">#{{categorie.nom}}</a>
+		{% endfor %}
+	</div>
+	{# <div id="content"></div> #}
+	{% if article.auteur.username === session.passport.user %}
+	<div class="edit-event text-center">
+		<a class="btn btn-danger mr-3" href="/article/delete/{{article._id}}">Supprimer</a>
+		<a class="btn btn-warning text-white" href="/article/edit/{{article._id}}">Editer</a>
+	</div>
+	{% endif %}
+	<a class="btn btn-outline-primary mt-4" href="/">Retour à la liste des articles</a>
+</div>
 
 {% endblock %}
 
 {% block javascript %}
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+  {# <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
   <script>
-  var ok = '{{article.contenu}}';
+  	var contenu = '{{article.contenu}}';
   	//var articleContent = document.getElementById('content').textContent;
     document.getElementById('content').innerHTML =
-  	marked(ok);
-  </script> 
+  	marked(contenu);
+  </script> #}
 {% endblock %}

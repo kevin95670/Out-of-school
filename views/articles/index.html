@@ -1,32 +1,59 @@
 {% extends "layout.html" %}
 
 {% block content %}
-	{% if session.flash.success %}
+	{% if success.length > 0 %}
 		<div class="alert alert-success" role="alert">
-  			{{session.flash.success[session.flash.success.length-1]}}
+  			{{success}}
 		</div>
-	{% elseif session.flash.error %}
-		<div class="alert alert-error" role="alert">
-  			{{session.flash.error[session.flash.error.length-1]}}
+	{% elseif error.length > 0 %}
+		<div class="alert alert-danger" role="alert">
+  			{{error}}
 		</div>
 	{% endif %}
-	<h1>Articles</h1>
-	<a href="/article/new">Ajouter un article</a>
-	{% for article in articles %}
-	<p>Publié par : {{article.auteur.username}}</p>
-		<a href="/article/{{article.id}}">{{article.titre}}</a>
-		<div id="article-{{loop.index}}">{{article.contenu}}</div>
-	{% endfor %}
+	<div class="container">
+		<h1 class="my-4 text-center">Articles</h1>
+		<div class="d-flex justify-content-center flex-wrap" role="group" aria-label="Catégories">
+			{% for categorie in categories %}
+			<a href="/categorie/{{categorie.nom}}" class="btn mr-3 mb-3 btn-outline-primary">{{categorie.nom}}</a>
+			{% endfor %}
+		</div>
+		<a class="btn btn-outline-warning" href="/article/new">Ajouter un article</a>
+		{% for article in articles %}
+			<article class="row border my-3 d-flex {% if loop.index % 2 == 0 %}flex-row-reverse{% else %} flex-row {% endif %}">
+				{% if article.image %}
+				<div class="img-article col-md-4 px-0">
+					<img class="img-fluid" src="/uploads/{{article.image}}" alt="{{article.titre}}">
+				</div>
+				{% endif %}
+				<div class="body-article px-3 pt-2 col-md-8">
+					<h2 class="text-primary text-center mb-3 text-center"><a href="/article/{{article.id}}">{{article.titre}}</a></h2>
+					<div id="article-{{loop.index}}">{{article.contenu | replace("script", " ") | truncate(320, false)}}
+					</div>
+					<a class="see-more btn btn-primary mb-sm-3 mb-md-0 d-block mx-auto" href="/article/{{article.id}}">Voir l'article</a>
+				</div>
+			</article>
+		{% endfor %}
+	</div>
 
 {% endblock %}
 
 {% block javascript %}
-  	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
+  	{#<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script> 
   	<script>
   		for (index = 1; index < {{articles.length+1}}; index++ ){
 	  		var articleContent = document.getElementById('article-' + index).textContent;
 	  		document.getElementById('article-' + index).innerHTML =
 	  		marked(articleContent);
 	  	}
-  	</script>
+  	</script>#}
+  	{#<script defer>
+  		for (index = 1; index < {{articles.length+1}}; index++ ){
+	  		//var articleContent = document.getElementById('article-' + index).textContent;
+	  		var article = document.getElementById('article-' + index);
+	  		var intro = article.getElementsByClassName("intro")[0].textContent;
+	  		intro.replace('script', '');
+	  		intro.substring((0,80) + '...');
+	  		document.getElementById('article-' + index).innerHTML = intro;
+	  	}
+  	</script>#}
 {% endblock %}

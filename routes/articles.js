@@ -11,6 +11,7 @@ function requireLogin(req, res, next) {
     next(); // allow the next route to run
   } else {
     // require the user to log in
+    req.flash('error', 'Vous n\'êtes pas connecté !');
     res.redirect("/user/login"); // or render a form, etc.
   }
 }
@@ -38,18 +39,29 @@ function isSameAuthor(req, res, next) {
   else 
   {
     // require the user to log in
+    req.flash('error', 'Vous devez être connecté !');
     res.redirect("/user/login"); // or render a form, etc.
   }
 }
 
 router.get('/', (req, res) => {
-	Article.find({})
-	.populate('categories')
-	.populate('auteur')
-	.then(articles => {
-		res.render('articles/index.html', {
-			articles: articles
-		});
+	Categorie.find({}).then(categories => {
+		Article.find({})
+		.populate('categories')
+		.populate('auteur')
+		.then(articles => {
+			res.render('articles/index.html', {
+				articles: articles,
+				categories: categories,
+				error: req.flash('error'),
+				success: req.flash('success')
+			});
+		})
+		.catch(err => {
+			if (err){
+				console.log(err);
+			}
+		})
 	})
 	.catch(err => {
 		if (err){
@@ -101,6 +113,7 @@ router.get('/article/edit/:id', isSameAuthor,(req,res) => {
 router.get('/article/delete/:id', isSameAuthor,(req,res) => {
 	Article.findOneAndRemove({ _id : req.params.id})
 	.then(() => {
+		req.flash('success', 'Article supprimé avec succès !');
 		res.redirect('/');
 	})
 })
@@ -116,6 +129,7 @@ router.get('/article/:id', (req,res) => {
 	})
 	.catch(err => {
 		if (err){
+			return res.status(404).send('article introuvable');
 			console.log(err);
 		}
 	})
@@ -142,6 +156,7 @@ router.post('/:id?', (req,res) => {
 		return article.save();
 
 	}).then(() => {
+		req.flash('success', 'Article sauvegardé !');
 		res.redirect('/');
 	})
 	.catch(err => {

@@ -38,3 +38,59 @@ ul {
   list-style: none;
   padding: 0;
 }
+
+/* line 5, ../sass/style.scss */
+.btn-outline-warning:hover {
+  color: white;
+}
+
+/* line 10, ../sass/style.scss */
+.see-more {
+  width: 200px;
+}
+
+/* line 16, ../sass/style.scss */
+article .body-article img {
+  display: none;
+}
+
+/* line 23, ../sass/style.scss */
+#article .both-items {
+  display: flex;
+  align-items: center;
+}
+/* line 27, ../sass/style.scss */
+#article .both-items .left-text {
+  max-width: 55%;
+}
+/* line 31, ../sass/style.scss */
+#article .both-items .right-image {
+  max-width: 45%;
+}
+/* line 36, ../sass/style.scss */
+#article .with-max-width {
+  width: 450px;
+}
+
+/* line 42, ../sass/style.scss */
+.body-article h2 {
+  font-size: 1.6em;
+}
+
+@media screen and (max-width: 768px) {
+  /* line 49, ../sass/style.scss */
+  #article .both-items {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  /* line 54, ../sass/style.scss */
+  #article .both-items .left-text {
+    max-width: 100%;
+  }
+  /* line 58, ../sass/style.scss */
+  #article .both-items .right-image {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+}

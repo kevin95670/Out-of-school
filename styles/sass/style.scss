@@ -1,1 +1,64 @@
 @import '_reset.scss';
+@import '_form.scss';
+
+.btn-outline-warning{
+	&:hover{
+		color:white;
+	}
+}
+
+.see-more{
+	width: 200px;
+}
+
+article{
+	.body-article{
+		img{
+			display: none;
+		}
+	}
+}
+
+#article{
+	& .both-items{
+		display: flex;
+		align-items: center;
+
+		& .left-text{
+			max-width: 55%;
+		}
+
+		& .right-image{
+			max-width: 45%;
+		}
+	}
+
+	& .with-max-width{
+		width: 450px;
+	}
+}
+
+.body-article{
+	h2{
+		font-size: 1.6em;
+	}
+}
+
+@media screen and (max-width: 768px){
+	#article{
+		& .both-items{
+			display: flex;
+			flex-direction: column-reverse;
+			align-items: center;
+
+			& .left-text{
+				max-width: 100%;
+			}
+
+			& .right-image{
+				max-width: 100%;
+				margin-bottom: 20px;
+			}
+		}
+	}
+}

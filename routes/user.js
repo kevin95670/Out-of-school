@@ -12,6 +12,7 @@ router.post('/login', (req, res, next) => {
     }
 
     if (!user) {
+      req.flash('error', 'Mauvais identifiants !');
       return res.redirect('/user/login');
     }
 
@@ -28,21 +29,27 @@ router.post('/login', (req, res, next) => {
 
 router.get('/login',(req, res) => {
   if ( req.user != null ) {
+    req.flash('error', 'Vous êtes déjà connecté !');
     res.redirect('/');
   } 
   else {
     res.render('users/login.html',{
-      endpoint : '/user/login'
+      endpoint : '/user/login',
+      error: req.flash('error'),
+      success: req.flash('success')
     });
   }
 });
 
 router.get('/register', (req, res) => {
   if ( req.user != null ) {
+    req.flash('error', 'Vous êtes déjà connecté !');
     res.redirect('/');
   } else {
       res.render('users/register.html', {
-      endpoint : '/user/register'
+      endpoint : '/user/register',
+      error: req.flash('error'),
+      success: req.flash('success')
     });
   }
 });
@@ -51,13 +58,17 @@ router.post('/register', function(req, res, next) {
   const author = { username: req.body.username };
   Auteur.register(author, req.body.password, function(err, user) {
     if (err) {
-      return res.render('users/register.html', { error : err.message });
+      req.flash('error', err);
+      return res.render('users/register.html', { 
+        error: req.flash('error'),
+      });
     }
     passport.authenticate('local')(req, res, function () {
       req.session.save(function (err) {
         if (err) {
           return next(err);
         }
+        req.flash('success', 'Inscription complétée !');
         res.redirect('/');
       });
     });
@@ -67,7 +78,7 @@ router.post('/register', function(req, res, next) {
 router.get('/logout', function(req, res){
   if(req.user != null){
     req.logout();
-    req.flash('success', 'Vous êtes déconnecté');
+    req.flash('success', 'Déconnexion réussie !');
     res.redirect('/');
   }
   else{
