@@ -1,23 +1,31 @@
+/* 
+Import
+*/
+
+// NodeJS
 var router = require('express').Router();
 var showdown  = require('showdown');
 var converter = new showdown.Converter();
 
+// Inner
 var Article = require('./../models/Article');
 var Categorie = require('./../models/Categorie');
 var Auteur = require('../models/Auteur');
 
+//Allowed to access to a route only if a user is logged in
 function requireLogin(req, res, next) {
-  if (req.user) {
-    next(); // allow the next route to run
-  } else {
-    // require the user to log in
-    req.flash('error', 'Vous n\'êtes pas connecté !');
-    res.redirect("/user/login"); // or render a form, etc.
-  }
+	if (req.user) {
+		next(); // allow the next route to run
+	} else {
+		// require the user to log in
+		req.flash('error', 'Vous n\'êtes pas connecté !');
+		res.redirect("/user/login"); // or render a form, etc.
+	}
 }
 
+//Get if the user connected is the author of the article
 function isSameAuthor(req, res, next) {
-  if (req.user) {
+  	if (req.user) {
   		Article.findById(req.params.id)
 		.populate('auteur')
 		.then(article => {
@@ -35,15 +43,16 @@ function isSameAuthor(req, res, next) {
 				console.log(err);
 			}
 		})
-  } 
-  else 
-  {
-    // require the user to log in
-    req.flash('error', 'Vous devez être connecté !');
-    res.redirect("/user/login"); // or render a form, etc.
-  }
+  	} 
+  	else 
+  	{
+    	// require the user to log in
+    	req.flash('error', 'Vous devez être connecté !');
+    	res.redirect("/user/login"); // or render a form, etc.
+  	}
 }
 
+//GET method route
 router.get('/', (req, res) => {
 	Categorie.find({}).then(categories => {
 		Article.find({})
@@ -70,6 +79,7 @@ router.get('/', (req, res) => {
 	})
 });
 
+//Route for created an article
 router.get('/article/new', requireLogin,(req,res) => {
 	Categorie.find({}).then(categories => {
 		var article = new Article();
@@ -86,6 +96,7 @@ router.get('/article/new', requireLogin,(req,res) => {
 	})
 });
 
+//An article can be deleted only if the author = user logged in
 router.get('/article/edit/:id', isSameAuthor,(req,res) => {
 	Categorie.find({}).then(categories => {
 		Article.findById(req.params.id)
@@ -110,6 +121,7 @@ router.get('/article/edit/:id', isSameAuthor,(req,res) => {
 	})
 });
 
+//An article can be deleted only if the author = user logged in
 router.get('/article/delete/:id', isSameAuthor,(req,res) => {
 	Article.findOneAndRemove({ _id : req.params.id})
 	.then(() => {
@@ -118,6 +130,7 @@ router.get('/article/delete/:id', isSameAuthor,(req,res) => {
 	})
 })
 
+//Get article
 router.get('/article/:id', (req,res) => {
 	Article.findById(req.params.id)
 	.populate('categories')
@@ -135,6 +148,7 @@ router.get('/article/:id', (req,res) => {
 	})
 });
 
+// create new post or edit it
 router.post('/:id?', (req,res) => {
 	new Promise((resolve, reject) => {
 		if(req.params.id) {
@@ -166,4 +180,7 @@ router.post('/:id?', (req,res) => {
 	})
 });
 
+/*
+Export
+*/
 module.exports = router;

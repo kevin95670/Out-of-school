@@ -3,11 +3,11 @@
 {% block content %}
 {% if success.length > 0 %}
 	<div class="alert alert-success" role="alert">
-			{{success}}
+		{{success}}
 	</div>
 {% elseif error.length > 0 %}
 	<div class="alert alert-danger" role="alert">
-			{{error}}
+		{{error}}
 	</div>
 {% endif %}
 	<div class="container">
@@ -31,6 +31,4 @@
 			</article>
 		{% endfor %}
 	</div>
-
-
 {% endblock %}

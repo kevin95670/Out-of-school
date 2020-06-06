@@ -1,5 +1,11 @@
+/*
+Import
+*/
 var mongoose = require('mongoose');
 
+/*
+Definition
+*/
 var articleSchema = new mongoose.Schema({
 	titre: String,
 	contenu: String,
@@ -17,5 +23,8 @@ var articleSchema = new mongoose.Schema({
 	}
 });
 
+/*
+Export
+*/
 var Article = mongoose.model('Article', articleSchema);
 module.exports = Article;

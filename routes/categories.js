@@ -1,7 +1,13 @@
+/*
+Import
+*/
+// NodeJS
 var router = require('express').Router();
 
+// Inner
 var Categorie = require('./../models/Categorie');
 
+// GET method route
 router.get('/:categorie', (req,res) => {
 	Categorie.findOne({
 		nom : req.params.categorie
@@ -20,4 +26,7 @@ router.get('/:categorie', (req,res) => {
 	})
 });
 
+/*
+Export
+*/
 module.exports = router;

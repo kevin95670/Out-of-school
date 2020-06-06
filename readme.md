@@ -1,3 +1,3 @@
-<!-- Lancer l'observateur sass -->
+Lancer l'observateur sass
 
 compass watch
