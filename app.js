@@ -74,5 +74,6 @@ app.use('/categorie', require('./routes/categories'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 /* Launch application */
-console.log('Out of school est lancée sur le port 3000');
-app.listen(3000);
+var port = process.env.PORT || 3000;
+console.log('Out of school est lancée sur le port '+ port);
+app.listen(port);
