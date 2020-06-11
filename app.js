@@ -75,4 +75,4 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 
 /* Launch application */
 console.log('Out of school est lancée sur le port 3000');
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
